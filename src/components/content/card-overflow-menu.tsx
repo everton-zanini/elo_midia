@@ -13,6 +13,7 @@ import {
 import { duplicateContent, setContentArchived } from "@/server/actions/content-actions";
 import { isManager } from "@/lib/workflow";
 import type { MembershipRole } from "@/lib/supabase/types";
+import { useReportPending } from "@/hooks/use-report-pending";
 
 export function CardOverflowMenu({
   churchSlug,
@@ -30,6 +31,7 @@ export function CardOverflowMenu({
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const canArchive = isManager(role);
+  useReportPending(isPending);
 
   if (!canDuplicate && !canArchive) return null;
 

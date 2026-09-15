@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -188,8 +189,17 @@ function SendToCreationDialog({
   members: Member[];
   timezone: string;
 }) {
-  const { state, isPending, run } = useServerAction((fd) => sendToCreation(churchSlug, fd));
+  const { state, isPending, run, reset } = useServerAction((fd) => sendToCreation(churchSlug, fd));
   const [assigneeId, setAssigneeId] = useState<string | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.ok) {
+      onOpenChange(false);
+      reset();
+      router.refresh();
+    }
+  }, [state, onOpenChange, reset, router]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -247,7 +257,16 @@ function RequestChangesDialog({
   contentId: string;
   version: number;
 }) {
-  const { state, isPending, run } = useServerAction((fd) => requestChanges(churchSlug, fd));
+  const { state, isPending, run, reset } = useServerAction((fd) => requestChanges(churchSlug, fd));
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.ok) {
+      onOpenChange(false);
+      reset();
+      router.refresh();
+    }
+  }, [state, onOpenChange, reset, router]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -292,7 +311,16 @@ function ScheduleDialog({
   hasChannel: boolean;
   timezone: string;
 }) {
-  const { state, isPending, run } = useServerAction((fd) => scheduleContent(churchSlug, fd));
+  const { state, isPending, run, reset } = useServerAction((fd) => scheduleContent(churchSlug, fd));
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.ok) {
+      onOpenChange(false);
+      reset();
+      router.refresh();
+    }
+  }, [state, onOpenChange, reset, router]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -344,7 +372,16 @@ function ConfirmPublicationDialog({
   contentId: string;
   version: number;
 }) {
-  const { state, isPending, run } = useServerAction((fd) => confirmPublication(churchSlug, fd));
+  const { state, isPending, run, reset } = useServerAction((fd) => confirmPublication(churchSlug, fd));
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.ok) {
+      onOpenChange(false);
+      reset();
+      router.refresh();
+    }
+  }, [state, onOpenChange, reset, router]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -385,7 +422,16 @@ function ReopenDialog({
   contentId: string;
   version: number;
 }) {
-  const { state, isPending, run } = useServerAction((fd) => reopenContent(churchSlug, fd));
+  const { state, isPending, run, reset } = useServerAction((fd) => reopenContent(churchSlug, fd));
+  const router = useRouter();
+
+  useEffect(() => {
+    if (state?.ok) {
+      onOpenChange(false);
+      reset();
+      router.refresh();
+    }
+  }, [state, onOpenChange, reset, router]);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

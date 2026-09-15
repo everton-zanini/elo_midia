@@ -6,6 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useServerAction } from "@/hooks/use-server-action";
+import { useReportPending } from "@/hooks/use-report-pending";
 import { updateCaption, setContentChannels } from "@/server/actions/content-actions";
 import { CHANNEL_LABELS } from "@/lib/workflow";
 import { ChannelBadge } from "@/components/content/badges";
@@ -72,6 +73,7 @@ export function ChannelsSection({
   const [selected, setSelected] = useState<Channel[]>(channels);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  useReportPending(isPending, "Salvando…");
 
   async function handleSave() {
     setIsPending(true);

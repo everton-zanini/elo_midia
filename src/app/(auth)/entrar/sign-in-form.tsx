@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { signIn } from "@/server/actions/auth-actions";
+import { useReportPending } from "@/hooks/use-report-pending";
 
 export function SignInForm({ proximo }: { proximo: string }) {
   const [state, formAction, isPending] = useActionState(signIn, null);
+  useReportPending(isPending, "Entrando…");
 
   return (
     <form action={formAction} className="flex flex-col gap-4" noValidate>

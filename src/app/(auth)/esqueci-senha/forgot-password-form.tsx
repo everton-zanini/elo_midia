@@ -6,9 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { requestPasswordReset } from "@/server/actions/auth-actions";
+import { useReportPending } from "@/hooks/use-report-pending";
 
 export function ForgotPasswordForm() {
   const [state, formAction, isPending] = useActionState(requestPasswordReset, null);
+  useReportPending(isPending, "Enviando…");
 
   if (state?.ok) {
     return (

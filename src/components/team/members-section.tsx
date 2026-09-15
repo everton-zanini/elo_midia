@@ -23,6 +23,7 @@ import { contentsNeedingNewAssignee, removeMember, updateMemberRole } from "@/se
 import type { MembershipRole } from "@/lib/supabase/types";
 import type { TeamMember } from "@/server/data/team";
 import { toast } from "sonner";
+import { useReportPending } from "@/hooks/use-report-pending";
 
 export function MembersSection({
   churchSlug,
@@ -39,6 +40,7 @@ export function MembersSection({
   const [removeTarget, setRemoveTarget] = useState<TeamMember | null>(null);
   const [pendingContents, setPendingContents] = useState<{ id: string; title: string }[]>([]);
   const [isPending, startTransition] = useTransition();
+  useReportPending(isPending);
 
   const membershipSummaries = members.map((m) => ({ userId: m.userId, role: m.role }));
 

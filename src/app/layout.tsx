@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/sonner";
 import { ServiceWorkerRegister } from "@/components/pwa/sw-register";
 import { InstallPrompt } from "@/components/pwa/install-prompt";
 import { OfflineBanner } from "@/components/pwa/offline-banner";
+import { LoadingProvider } from "@/components/loading/loading-provider";
+import { GlobalLoadingOverlay } from "@/components/loading/global-loading-overlay";
 import "./globals.css";
 
 const bodyFont = Inter({
@@ -54,11 +56,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="pt-BR" className={`${bodyFont.variable} ${headingFont.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <TooltipProvider delay={200}>
-          <OfflineBanner />
-          {children}
-          <Toaster position="top-center" richColors closeButton />
-          <ServiceWorkerRegister />
-          <InstallPrompt />
+          <LoadingProvider>
+            <OfflineBanner />
+            {children}
+            <Toaster position="top-center" richColors closeButton />
+            <ServiceWorkerRegister />
+            <InstallPrompt />
+            <GlobalLoadingOverlay />
+          </LoadingProvider>
         </TooltipProvider>
       </body>
     </html>

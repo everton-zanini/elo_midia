@@ -24,6 +24,7 @@ import {
 import { ALLOWED_ATTACHMENT_MIME_TYPES, MAX_ATTACHMENT_SIZE_BYTES } from "@/lib/attachments";
 import type { AttachmentView } from "@/server/data/content-related";
 import { toast } from "sonner";
+import { useReportPending } from "@/hooks/use-report-pending";
 
 function formatBytes(bytes: number | null) {
   if (!bytes) return "";
@@ -45,6 +46,7 @@ function AttachmentRow({
   onDeleted: () => void;
 }) {
   const [isPending, startTransition] = useTransition();
+  useReportPending(isPending);
 
   async function handleOpen() {
     if (attachment.external_url) {
@@ -97,6 +99,7 @@ export function AttachmentsSection({
   const [linkDialogKind, setLinkDialogKind] = useState<AttachmentView["kind"] | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const pendingKindRef = useRef<AttachmentView["kind"]>("referencia");
+  useReportPending(uploading !== null, "Enviando arquivo…");
 
   const publishable = attachments.filter((a) => a.kind === "publicavel");
   const reference = attachments.filter((a) => a.kind === "referencia");
@@ -249,6 +252,7 @@ function ExternalLinkDialog({
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  useReportPending(isPending, "Salvando…");
 
   function handleSubmit(formData: FormData) {
     startTransition(async () => {

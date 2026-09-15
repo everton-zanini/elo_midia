@@ -6,10 +6,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { updatePassword } from "@/server/actions/auth-actions";
+import { useReportPending } from "@/hooks/use-report-pending";
 
 export function ResetPasswordForm() {
   const [state, formAction, isPending] = useActionState(updatePassword, null);
   const router = useRouter();
+  useReportPending(isPending, "Salvando…");
 
   useEffect(() => {
     if (state?.ok) {

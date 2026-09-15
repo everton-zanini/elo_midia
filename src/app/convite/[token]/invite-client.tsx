@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { acceptInvite, signUpForInvite } from "@/server/actions/invite-actions";
 import { ROLE_LABELS } from "@/lib/roles";
+import { useReportPending } from "@/hooks/use-report-pending";
 
 export function InviteClient({
   token,
@@ -26,6 +27,7 @@ export function InviteClient({
   const [isPending, startTransition] = useTransition();
   const [acceptError, setAcceptError] = useState<string | null>(null);
   const [signUpState, signUpAction, isSigningUp] = useActionState(signUpForInvite, null);
+  useReportPending(isPending || isSigningUp);
 
   function handleAccept() {
     startTransition(async () => {
